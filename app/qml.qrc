@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/qml/singletons/qmldir</file>
+        <file>res/qml/singletons/QivStyle.qml</file>
+        <file>res/qml/QivHelper.js</file>
+        <file>res/qml/controls/QivBaseButton.qml</file>
+        <file>res/qml/components/QivButton.qml</file>
+        <file>res/qml/components/QivText.qml</file>
+        <file>res/qml/components/QivBusyIndicator.qml</file>
+        <file>res/qml/components/QivNetworkImage.qml</file>
+        <file>res/qml/components/QivImagePreview.qml</file>
+        <file>res/qml/components/QivAvatar.qml</file>
+        <file>res/qml/components/QivUserTile.qml</file>
+        <file>res/qml/components/QivAlbumTile.qml</file>
+        <file>res/qml/components/QivPhotoTile.qml</file>
+        <file>res/qml/components/QivInfoPanel.qml</file>
+        <file>res/qml/effects/QivShadowEffect.qml</file>
+        <file>res/qml/effects/QivBlurEffect.qml</file>
+        <file>res/qml/main.qml</file>
+        <file>res/qml/QivBasePage.qml</file>
+        <file>res/qml/QivUsersPage.qml</file>
+        <file>res/qml/QivAlbumsPage.qml</file>
+        <file>res/qml/QivPhotosPage.qml</file>
+        <file>res/assets/album_cover.png</file>
+        <file>res/assets/spinner.png</file>
+    </qresource>
+</RCC>
