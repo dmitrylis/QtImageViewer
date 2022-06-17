@@ -51,7 +51,7 @@ QJsonObject UsersController::selectedUserData() const
     {
         for (const auto& user : m_usersModel)
         {
-            if (user.toObject().value("id") == m_selectedUserId)
+            if (user.toObject().value("id").toInt() == m_selectedUserId)
             {
                 return user.toObject();
             }

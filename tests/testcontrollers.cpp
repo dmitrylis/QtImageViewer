@@ -3,7 +3,7 @@
 
 #include <QSignalSpy>
 
-#include <restdataprovider.h>
+#include "mockdataprovider.h"
 
 #include <userscontroller.h>
 #include <albumscontroller.h>
@@ -29,7 +29,7 @@ private slots:
     void test_posts();
 
 private:
-    RestDataProvider m_restDataProvider;
+    MockDataProvider m_mockDataProvider;
 };
 
 TestControllers::TestControllers()
@@ -42,7 +42,7 @@ TestControllers::~TestControllers()
 
 void TestControllers::test_users()
 {
-    UsersController userController{&m_restDataProvider};
+    UsersController userController{&m_mockDataProvider};
 
     // verifying initial parameters
     QCOMPARE(userController.property("selectedUserId").toInt(), 0);
@@ -54,12 +54,11 @@ void TestControllers::test_users()
     // requesting data
     QSignalSpy requestUsersSpy(&userController, &UsersController::usersModelChanged);
     userController.requestUsers();
-    requestUsersSpy.wait();
     QCOMPARE(requestUsersSpy.count(), 1);
 
     // verifying received data
     usersModel = userController.property("usersModel").toJsonArray();
-    QVERIFY(usersModel.count() > 0);
+    QCOMPARE(usersModel.count(), 10);
 
     // trying to select some user and verify data
     userController.selectUser(1);
@@ -74,7 +73,7 @@ void TestControllers::test_users()
 
 void TestControllers::test_albums()
 {
-    AlbumsController albumsController{&m_restDataProvider};
+    AlbumsController albumsController{&m_mockDataProvider};
 
     // verifying initial parameters
     QCOMPARE(albumsController.property("selectedAlbumId").toInt(), 0);
@@ -88,20 +87,18 @@ void TestControllers::test_albums()
     // requesting data
     QSignalSpy requestAlbumsSpy(&albumsController, &AlbumsController::albumsModelChanged);
     albumsController.requestAlbums();
-    requestAlbumsSpy.wait();
     QCOMPARE(requestAlbumsSpy.count(), 1);
 
     QSignalSpy requestUserAlbumsSpy(&albumsController, &AlbumsController::userAlbumsModelChanged);
     albumsController.requestUserAlbums(1);
-    requestUserAlbumsSpy.wait();
     QCOMPARE(requestUserAlbumsSpy.count(), 1);
 
     // verifying received data
     albumsModel = albumsController.property("albumsModel").toJsonArray();
-    QVERIFY(albumsModel.count() > 0);
+    QCOMPARE(albumsModel.count(), 100);
 
     userAlbumsModel = albumsController.property("userAlbumsModel").toJsonArray();
-    QVERIFY(userAlbumsModel.count() > 0);
+    QCOMPARE(userAlbumsModel.count(), 10);
 
     // trying to select some album and verify data
     albumsController.selectAlbum(1);
@@ -124,7 +121,7 @@ void TestControllers::test_albums()
 
 void TestControllers::test_photos()
 {
-    PhotosController photosController{&m_restDataProvider};
+    PhotosController photosController{&m_mockDataProvider};
 
     // verifying initial parameters
     QCOMPARE(photosController.property("photosCount").toInt(), 0);
@@ -135,19 +132,17 @@ void TestControllers::test_photos()
     // requesting photos
     QSignalSpy requestPhotosSpy(&photosController, &PhotosController::photosCountChanged);
     photosController.requestPhotos();
-    requestPhotosSpy.wait();
     QCOMPARE(requestPhotosSpy.count(), 1);
 
     QSignalSpy requestAlbumPhotosSpy(&photosController, &PhotosController::albumPhotosModelChanged);
     photosController.requestAlbumPhotos(1);
-    requestAlbumPhotosSpy.wait();
     QCOMPARE(requestAlbumPhotosSpy.count(), 1);
 
     // verifying received data
-    QVERIFY(photosController.property("photosCount").toInt() > 0);
+    QCOMPARE(photosController.property("photosCount").toInt(), 5000);
 
     albumPhotosModel = photosController.property("albumPhotosModel").toJsonArray();
-    QVERIFY(albumPhotosModel.count() > 0);
+    QCOMPARE(albumPhotosModel.count(), 50);
 
     // resetting and verifying data
     photosController.resetPhotos();
@@ -161,7 +156,7 @@ void TestControllers::test_photos()
 
 void TestControllers::test_comments()
 {
-    CommentsController commentsController{&m_restDataProvider};
+    CommentsController commentsController{&m_mockDataProvider};
 
     // verifying initial parameters
     QCOMPARE(commentsController.property("commentsCount").toInt(), 0);
@@ -169,11 +164,10 @@ void TestControllers::test_comments()
     // requesting comments
     QSignalSpy requestCommentsSpy(&commentsController, &CommentsController::commentsCountChanged);
     commentsController.requestComments();
-    requestCommentsSpy.wait();
     QCOMPARE(requestCommentsSpy.count(), 1);
 
     // verifying received data
-    QVERIFY(commentsController.property("commentsCount").toInt() > 0);
+    QCOMPARE(commentsController.property("commentsCount").toInt(), 500);
 
     // resetting and verifying data
     commentsController.resetComments();
@@ -182,7 +176,7 @@ void TestControllers::test_comments()
 
 void TestControllers::test_posts()
 {
-    PostsController postsController{&m_restDataProvider};
+    PostsController postsController{&m_mockDataProvider};
 
     // verifying initial parameters
     QCOMPARE(postsController.property("postsCount").toInt(), 0);
@@ -190,11 +184,10 @@ void TestControllers::test_posts()
     // requesting posts
     QSignalSpy requestPostsSpy(&postsController, &PostsController::postsCountChanged);
     postsController.requestPosts();
-    requestPostsSpy.wait();
     QCOMPARE(requestPostsSpy.count(), 1);
 
     // verifying received data
-    QVERIFY(postsController.property("postsCount").toInt() > 0);
+    QCOMPARE(postsController.property("postsCount").toInt(), 100);
 
     // resetting and verifying data
     postsController.resetPosts();

@@ -7,6 +7,7 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES +=  \
+    mockdataprovider.cpp \
     testcontrollers.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../src/release/ -lviewer
@@ -15,3 +16,6 @@ else:unix: LIBS += -L$$OUT_PWD/../src/ -lviewer
 
 INCLUDEPATH += $$PWD/../src
 DEPENDPATH += $$PWD/../src
+
+HEADERS += \
+    mockdataprovider.h
