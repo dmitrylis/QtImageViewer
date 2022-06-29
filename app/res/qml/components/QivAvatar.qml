@@ -22,7 +22,7 @@ Rectangle {
             const words = name.split(" ")
             let letters = ""
 
-            for (let i = 0; i < 2 & i < words.length; ++i) {
+            for (let i = 0; i < 2 && i < words.length; ++i) {
                 letters += words[i][0]
             }
             return letters
